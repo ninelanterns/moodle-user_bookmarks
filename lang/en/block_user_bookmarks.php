@@ -28,6 +28,10 @@
  */
 $string['user_bookmarks:addinstance'] = 'Add a new Block for Custom Bookmarks';
 $string['user_bookmarks:myaddinstance'] = 'Add a new Block for Custom Bookmarks to MyMoodle';
+$string['user_bookmarks:addbookmark'] = 'Add a bookmark';
+$string['user_bookmarks:deletebookmark'] = 'Delete bookmarks';
+$string['user_bookmarks:viewbookmarks'] = 'View bookmarks';
+
 $string['pluginname'] = 'User Bookmarks block';
 $string['block_name'] = 'User Bookmarks';
 $string['blocktitle'] = 'User Bookmarks';
