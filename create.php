@@ -19,7 +19,7 @@
  *
  * @package    block
  * @subpackage block_user_bookmarks
- * @copyright  Jonas Rüegge
+ * @copyright  Jonas Rï¿½egge
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -35,7 +35,13 @@ if ($bookmarkurl = htmlspecialchars_decode($_GET["bookmarkurl"]) and $title = $_
      * This gets the user_bookmarks
      */
     if (get_user_preferences('user_bookmarks')) {
-        $bookmarks = explode(',', get_user_preferences('user_bookmarks'));
+//-----------------------------------------------------------------------------------------------------------
+//-------------BEGIN CORE HACK-------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------
+        $bookmarks = preg_split('/(?<!\\\\),/', get_user_preferences('user_bookmarks'));
+//-----------------------------------------------------------------------------------------------------------
+//-------------END CORE HACK---------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------
         
         if (in_array(($bookmarkurl . "|" . $title), $bookmarks)) {
             print_error(get_string('error:bookmarkalreadyexists', 'block_user_bookmarks'), 'admin');
@@ -47,6 +53,7 @@ if ($bookmarkurl = htmlspecialchars_decode($_GET["bookmarkurl"]) and $title = $_
     }
 
     //adds the bookmark at end of array
+    $title = str_replace(',', '\\,', $title);
     $bookmarks[] = $bookmarkurl . "|" . $title;
     $bookmarks = implode(',', $bookmarks);
     
