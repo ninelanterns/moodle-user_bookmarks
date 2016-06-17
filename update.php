@@ -1,50 +1,41 @@
 <?php
 /**
  * Created on Jul 20, 2012
- * 
+ *
  * @author Gurvinder Singh
  */
 
 require('../../config.php');
 
 require_login();
+$bookmarkurl = required_param('bookmarkurl', PARAM_URL);
+$newtitle = required_param('title', PARAM_TEXT);
 
-if ($bookmarkurl = htmlspecialchars_decode($_GET["bookmarkurl"])
-    and $newtitle = $_GET["title"] and confirm_sesskey()) {
-
-    if (get_user_preferences('user_bookmarks')) {
-
-        $bookmarks = explode(',', get_user_preferences('user_bookmarks'));
-
-        $bookmarkupdated = false;
-
-        foreach($bookmarks as $bookmark) {
-            $tempBookmark = explode('|', $bookmark);
-            if ($tempBookmark[0] == $bookmarkurl) {
-                $keyToRemove = array_search($bookmark, $bookmarks);
-                $newBookmark = $bookmarkurl . "|" . $newtitle;
-                $bookmarks[$keyToRemove] = $newBookmark;
-                $bookmarkupdated = true;
-            }
-        }
-        
-        if ($bookmarkupdated == false) {
-            print_error('nonexistentbookmark','admin');
-            die;
-        }
-        
-        $bookmarks = implode(',', $bookmarks);
-        set_user_preference('user_bookmarks', $bookmarks);
-        
-        global $CFG;
-        header("Location: " . $CFG->wwwroot . $bookmarkurl);
-        die;
-    }
-
+if (!($preferences = get_user_preferences('user_bookmarks'))) {
     print_error('nobookmarksforuser','admin');
-    die;
+}
 
-} else {
-    print_error('invalidsection', 'admin');
+$bookmarks = preg_split('/(?<!\\\\),/', $preferences);
+
+$bookmarkupdated = false;
+
+foreach($bookmarks as $index => $bookmark) {
+    $tempBookmark = explode('|', $bookmark);
+    if ($tempBookmark[0] == $bookmarkurl) {
+        $newtitle = str_replace(',', '\\,', $newtitle);
+        $newBookmark = $bookmarkurl . "|" . $newtitle;
+        $bookmarks[$index] = $newBookmark;
+        $bookmarkupdated = true;
+    }
+}
+
+if ($bookmarkupdated == false) {
+    print_error('nonexistentbookmark','admin');
     die;
 }
+
+$bookmarkstring = implode(',', $bookmarks);
+set_user_preference('user_bookmarks', $bookmarkstring);
+
+header("Location: " . $CFG->wwwroot . $bookmarkurl);
+die;
