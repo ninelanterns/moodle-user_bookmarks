@@ -20,7 +20,7 @@ $bookmarks = preg_split('/(?<!\\\\),/', $preferences);
 $bookmarkupdated = false;
 
 foreach($bookmarks as $index => $bookmark) {
-    $tempBookmark = explode('|', $bookmark);
+    $tempBookmark = explode('|', $bookmark, 2);
     if ($tempBookmark[0] == $bookmarkurl) {
         $newtitle = str_replace(',', '\\,', $newtitle);
         $newBookmark = $bookmarkurl . "|" . $newtitle;

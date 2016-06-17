@@ -197,7 +197,7 @@ class block_user_bookmarks extends block_base {
                 //the bookmarks are in the following format- url|title
                 //so exploading the bookmark by "|" to get the url and title
 
-                $tempBookmark = explode('|', $bookmark);
+                $tempBookmark = explode('|', $bookmark, 2);
 
                 $title = str_replace('\\,', ',', $tempBookmark[1]);
                 $contenturl = new moodle_url($CFG->wwwroot . $tempBookmark[0]);

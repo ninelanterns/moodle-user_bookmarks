@@ -35,14 +35,8 @@ if ($bookmarkurl = htmlspecialchars_decode($_GET["bookmarkurl"]) and $title = $_
      * This gets the user_bookmarks
      */
     if (get_user_preferences('user_bookmarks')) {
-//-----------------------------------------------------------------------------------------------------------
-//-------------BEGIN CORE HACK-------------------------------------------------------------------------------
-//-----------------------------------------------------------------------------------------------------------
         $bookmarks = preg_split('/(?<!\\\\),/', get_user_preferences('user_bookmarks'));
-//-----------------------------------------------------------------------------------------------------------
-//-------------END CORE HACK---------------------------------------------------------------------------------
-//-----------------------------------------------------------------------------------------------------------
-        
+
         if (in_array(($bookmarkurl . "|" . $title), $bookmarks)) {
             print_error(get_string('error:bookmarkalreadyexists', 'block_user_bookmarks'), 'admin');
             die;
@@ -56,10 +50,10 @@ if ($bookmarkurl = htmlspecialchars_decode($_GET["bookmarkurl"]) and $title = $_
     $title = str_replace(',', '\\,', $title);
     $bookmarks[] = $bookmarkurl . "|" . $title;
     $bookmarks = implode(',', $bookmarks);
-    
+
     //adds to preferences table
     set_user_preference('user_bookmarks', $bookmarks);
-    
+
     global $CFG;
     header("Location: " . $CFG->wwwroot . $bookmarkurl);
 } else {
