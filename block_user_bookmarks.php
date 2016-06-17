@@ -158,7 +158,7 @@ class block_user_bookmarks extends block_base {
         $node = $this->page->settingsnav->get('root', navigation_node::TYPE_SETTING);
 
         $bookmarkurl = htmlspecialchars_decode(str_replace($CFG->wwwroot,'',$PAGE->url));
-        $bookmarktitle = $PAGE->title;
+        $bookmarktitle = trim(json_encode($PAGE->title), '"');
 
         if (in_array($bookmarkurl, $bookmarkurls)) {
             //this prints out the link to unbookmark a page
