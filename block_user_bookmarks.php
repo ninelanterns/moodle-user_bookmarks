@@ -139,10 +139,11 @@ class block_user_bookmarks extends block_base {
             $contentlink = html_writer::link($bookmark['url'], $bookmark['title']);
 
             // delete URL
+            $escapedtitle = trim(json_encode($bookmark['title']), '"');
             $bookmarkdeleteurl = new moodle_url('/blocks/user_bookmarks/delete.php', array('bookmarkurl'=>$bookmark['url']->out_as_local_url(false), 'sesskey'=>sesskey()));
             $deletelink = html_writer::link($bookmarkdeleteurl, $OUTPUT->pix_icon('delete', $deletestr, 'block_user_bookmarks', array('title' => $deletestr)));
             $editlink = '<a style="cursor: pointer;" onClick="updateBookmark(\''
-               .$bookmark['url']->out_as_local_url(false).'\', \''.$bookmark['title'].'\', \''.sesskey().'\', \''.$CFG->wwwroot.'\');">'
+               .$bookmark['url']->out_as_local_url(false).'\', \''.$escapedtitle.'\', \''.sesskey().'\', \''.$CFG->wwwroot.'\');">'
                .$OUTPUT->pix_icon('edit', $editstr, 'block_user_bookmarks', array('title' => $editstr)).'</a>';
 
             //setting layout for the bookmark and its delete and edit buttons
