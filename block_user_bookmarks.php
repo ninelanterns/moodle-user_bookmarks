@@ -92,6 +92,7 @@ class block_user_bookmarks extends block_base {
         if ($this->contentgenerated === true) {
             return $this->content;
         }
+        $this->contentgenerated = true;
 
         require_once($CFG->libdir.'/adminlib.php');
         $this->content = new stdClass();
@@ -146,7 +147,7 @@ class block_user_bookmarks extends block_base {
 
             //setting layout for the bookmark and its delete and edit buttons
             $contents[] = html_writer::tag('li', $contentlink . " ".$editlink." " . $deletelink);
-            $bookmarkurls[]= html_entity_decode($bookmark['url']);
+            $bookmarkurls[]= html_entity_decode($bookmark['url']->out_as_local_url(false));
         }
 
         $this->content->text = html_writer::tag('ol', implode('', $contents), array('class' => 'list'));
