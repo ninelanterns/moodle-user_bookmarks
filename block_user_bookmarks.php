@@ -172,7 +172,7 @@ class block_user_bookmarks extends block_base {
             //this prints out link to bookmark a page
             $this->content->footer = $javascript . '
     <form>
-    <a style="cursor: pointer;" onClick="addBookmark(\''.$bookmarkurl.'\', \''.$bookmarktitle.'\', \''.sesskey().'\', \''.$CFG->wwwroot.'\');">'
+    <a style="cursor: pointer;" onClick="addBookmark(\''.$bookmarkurl.'\', \''.str_replace("'", "\'", $bookmarktitle).'\', \''.sesskey().'\', \''.$CFG->wwwroot.'\');">'
         . get_string('bookmarkpage', 'block_user_bookmarks'). '</a>
     </form>';
         }
